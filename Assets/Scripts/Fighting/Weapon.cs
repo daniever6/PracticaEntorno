@@ -8,6 +8,7 @@ namespace Fighting
     {
         public Animator effectsPrefab;
         private static readonly int Hit03 = Animator.StringToHash("hit03");
+        public float damage = 0;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -20,8 +21,8 @@ namespace Fighting
 
             // TODO: Review if this is the best way to do this
             IFighterReceiver enemy = otherObject.GetComponent<IFighterReceiver>();
-            if(enemy != null )
-                enemy.TakeHit();
+            if(enemy != null)
+                enemy.TakeHit(damage);
         }
     }
 }

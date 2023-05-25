@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectsPrefab: {fileID: 5011862488382498431, guid: ccf5b78470c35b9449a921ee0e3c17e9, type: 3}
+  dmg: 5
 --- !u!1 &2268116844751448805
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpAmount: 1.3
+  attack: 5
 --- !u!114 &8653441937024262822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,3 +498,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectsPrefab: {fileID: 5011862488382498431, guid: ccf5b78470c35b9449a921ee0e3c17e9, type: 3}
+  dmg: 3

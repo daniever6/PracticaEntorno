@@ -1,6 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Netcode
 {
@@ -12,6 +13,8 @@ namespace Netcode
         {
             if (!IsOwner) return;
             InstantiateCharacterServerRpc(OwnerClientId);
+            
+            
         }
     
         [ServerRpc]

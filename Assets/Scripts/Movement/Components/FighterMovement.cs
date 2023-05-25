@@ -10,10 +10,11 @@ namespace Movement.Components
      RequireComponent(typeof(NetworkObject))]
     public sealed class FighterMovement : NetworkBehaviour, IMoveableReceiver, IJumperReceiver, IFighterReceiver
     {
+        public static volatile Time time; 
         public float speed = 1.0f;
         public float jumpAmount = 1.0f;
 
-        private int vida = 3;
+        private float vida = 3;
         
 
 
@@ -49,11 +50,13 @@ namespace Movement.Components
         void Update()
         {
             if (!IsServer) return;
-            
+
             _grounded = Physics2D.OverlapCircle(_feet.position, 0.1f, _floor);
             _networkAnimator.Animator.SetFloat(AnimatorSpeed, this._direction.magnitude);
             _networkAnimator.Animator.SetFloat(AnimatorVSpeed, this._rigidbody2D.velocity.y);
             _animator.SetBool(AnimatorGrounded, this._grounded);
+
+
 
             
 
@@ -105,21 +108,23 @@ namespace Movement.Components
                     break;
             }
         }
+
         
         public void Attack1()
         {
             _networkAnimator.SetTrigger(AnimatorAttack1);
         }
 
+
         public void Attack2()
         {
             _networkAnimator.SetTrigger(AnimatorAttack2);
         }
 
-        public void TakeHit()
+        public void TakeHit(float damage)
         {
             _networkAnimator.SetTrigger(AnimatorHit);
-            this.vida--;
+            this.vida-= damage;
             Debug.Log(this.vida);
             if (this.vida <= 0)
             {
@@ -131,7 +136,8 @@ namespace Movement.Components
         {
             
             
-                _networkAnimator.SetTrigger(AnimatorDie);
+            _networkAnimator.SetTrigger(AnimatorDie);
+            this.gameObject.GetComponent<MeshCollider>().enabled = false;
             
         }
     }

@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectsPrefab: {fileID: 5011862488382498431, guid: ccf5b78470c35b9449a921ee0e3c17e9, type: 3}
+  damage: 0
 --- !u!1 &2825742610121820718
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectsPrefab: {fileID: 5011862488382498431, guid: ccf5b78470c35b9449a921ee0e3c17e9, type: 3}
+  damage: 0
 --- !u!1 &7467422803782451213
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +193,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7467422803991183041}
+  m_Father: {fileID: 383512172724502931}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7467422803991183054
@@ -202,13 +204,17 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7467422803991183041}
+  - component: {fileID: 383512172724502931}
   - component: {fileID: 7467422803991183040}
   - component: {fileID: 7467422803991183055}
   - component: {fileID: 7467422803991183044}
   - component: {fileID: 4255637325402943698}
   - component: {fileID: 7467422803991183043}
   - component: {fileID: 1925026832632699689}
+  - component: {fileID: 6274951356053797854}
+  - component: {fileID: 6860014732123020723}
+  - component: {fileID: 6913659564924517439}
+  - component: {fileID: 2877127228539356406}
   m_Layer: 6
   m_Name: Oni
   m_TagString: Untagged
@@ -216,8 +222,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7467422803991183041
-Transform:
+--- !u!224 &383512172724502931
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -233,6 +239,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.45833334, y: 0.7777778}
+  m_Pivot: {x: 0.5, y: -0}
 --- !u!212 &7467422803991183040
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -382,6 +393,70 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &6274951356053797854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467422803991183054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 7467422803991183055}
+--- !u!114 &6860014732123020723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467422803991183054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 0
+--- !u!114 &6913659564924517439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467422803991183054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2877127228539356406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467422803991183054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a236bb08e3145b6819e0d9da63e82c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8174797378138190224
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +487,6 @@ Transform:
   m_Children:
   - {fileID: 6344734711913757713}
   - {fileID: 2660412905183413080}
-  m_Father: {fileID: 7467422803991183041}
+  m_Father: {fileID: 383512172724502931}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
