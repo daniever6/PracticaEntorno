@@ -25,6 +25,9 @@ namespace Movement.Components
         private LayerMask _floor;
         private LayerMask _player;
 
+        public Healthbar _healthbar;
+        public GameObject _health;
+
         private Vector3 _direction = Vector3.zero;
         private bool _grounded = true;
         
@@ -45,20 +48,19 @@ namespace Movement.Components
             _feet = transform.Find("Feet");
             _floor = LayerMask.GetMask("Floor");
             _player = LayerMask.GetMask("Fighter"); //si no funciona quitar
-            
+
+            this._healthbar.SetMaxHealth(this.vida.Value);  
+            this._health.transform.SetParent(this.transform);
         }
 
         void Update()
         {
             if (!IsServer) return;
-            
 
             _grounded = Physics2D.OverlapCircle(_feet.position, 0.1f, _floor);
             _networkAnimator.Animator.SetFloat(AnimatorSpeed, this._direction.magnitude);
             _networkAnimator.Animator.SetFloat(AnimatorVSpeed, this._rigidbody2D.velocity.y);
             _animator.SetBool(AnimatorGrounded, this._grounded);
-            
-
         }
 
         void FixedUpdate()
@@ -83,7 +85,6 @@ namespace Movement.Components
             bool lookingRight = direction == IMoveableReceiver.Direction.Right;
             _direction = (lookingRight ? 1f : -1f) * speed * Vector3.right;
             transform.localScale = new Vector3(lookingRight ? 1 : -1, 1, 1);
-            
         }
 
         public void Jump(IJumperReceiver.JumpStage stage)
@@ -131,24 +132,18 @@ namespace Movement.Components
             }
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void takeHitServerRpc(float damage)
         {
-            
             this.vida.Value -= damage;
             Debug.Log(this.vida.Value);
-            
+            this._healthbar.SetHealth(this.vida.Value);
         }
         
         public void Die()
         {
             _networkAnimator.SetTrigger(AnimatorDie);
             this.NetworkObject.Despawn();
-            
-            
         }
-
-
-
     }
 }
