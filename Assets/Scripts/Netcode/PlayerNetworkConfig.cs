@@ -16,7 +16,12 @@ namespace Netcode
             
             
         }
-    
+        [ServerRpc]
+        public void SelectCharacterServerRpc()
+        {
+
+        }
+
         [ServerRpc]
         public void InstantiateCharacterServerRpc(ulong id)
         {

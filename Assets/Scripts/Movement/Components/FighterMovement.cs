@@ -1,4 +1,5 @@
-﻿using Unity.Netcode;
+﻿using Movement.Commands;
+using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,8 +15,7 @@ namespace Movement.Components
         public float speed = 1.0f;
         public float jumpAmount = 1.0f;
 
-        private float vida = 3;
-        
+        private NetworkVariable<float> vida = new NetworkVariable<float>(10);
 
 
         private Rigidbody2D _rigidbody2D;
@@ -45,21 +45,19 @@ namespace Movement.Components
             _feet = transform.Find("Feet");
             _floor = LayerMask.GetMask("Floor");
             _player = LayerMask.GetMask("Fighter"); //si no funciona quitar
+            
         }
 
         void Update()
         {
             if (!IsServer) return;
+            
 
             _grounded = Physics2D.OverlapCircle(_feet.position, 0.1f, _floor);
             _networkAnimator.Animator.SetFloat(AnimatorSpeed, this._direction.magnitude);
             _networkAnimator.Animator.SetFloat(AnimatorVSpeed, this._rigidbody2D.velocity.y);
             _animator.SetBool(AnimatorGrounded, this._grounded);
-
-
-
             
-
 
         }
 
@@ -110,6 +108,7 @@ namespace Movement.Components
         }
 
         
+        
         public void Attack1()
         {
             _networkAnimator.SetTrigger(AnimatorAttack1);
@@ -121,24 +120,35 @@ namespace Movement.Components
             _networkAnimator.SetTrigger(AnimatorAttack2);
         }
 
+
         public void TakeHit(float damage)
         {
+            takeHitServerRpc(damage);
             _networkAnimator.SetTrigger(AnimatorHit);
-            this.vida-= damage;
-            Debug.Log(this.vida);
-            if (this.vida <= 0)
+            if (this.vida.Value <= 0)
             {
                 Die();
             }
         }
+
+        [ServerRpc]
+        public void takeHitServerRpc(float damage)
+        {
+            
+            this.vida.Value -= damage;
+            Debug.Log(this.vida.Value);
+            
+        }
         
         public void Die()
         {
-            
-            
             _networkAnimator.SetTrigger(AnimatorDie);
-            this.gameObject.GetComponent<MeshCollider>().enabled = false;
+            this.NetworkObject.Despawn();
+            
             
         }
+
+
+
     }
 }
