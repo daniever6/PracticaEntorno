@@ -125,24 +125,35 @@ namespace Movement.Components
         public void TakeHit(float damage)
         {
             takeHitServerRpc(damage);
-            _networkAnimator.SetTrigger(AnimatorHit);
+            setHealthBarClientRpc();
+            
+            
+
             if (this.vida.Value <= 0)
             {
                 Die();
             }
         }
 
-        [ServerRpc(RequireOwnership = false)]
+        [ServerRpc]
         public void takeHitServerRpc(float damage)
         {
             this.vida.Value -= damage;
             Debug.Log(this.vida.Value);
+            ;
+        }
+
+        [ClientRpc]
+        public void setHealthBarClientRpc()
+        {
             this._healthbar.SetHealth(this.vida.Value);
+            _networkAnimator.SetTrigger(AnimatorHit);
         }
         
         public void Die()
         {
             _networkAnimator.SetTrigger(AnimatorDie);
+
             this.NetworkObject.Despawn();
         }
     }

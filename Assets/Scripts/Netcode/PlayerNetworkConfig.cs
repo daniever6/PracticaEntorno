@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ namespace Netcode
 {
     public class PlayerNetworkConfig : NetworkBehaviour
     {
-        public GameObject characterPrefab;
+        public GameObject characterPrefab; 
 
         public override void OnNetworkSpawn()
         {
