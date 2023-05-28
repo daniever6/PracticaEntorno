@@ -9,13 +9,18 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
+using UnityEngine.SceneManagement;
 
-public class Lobby : NetworkManager
+public class Lobby : NetworkBehaviour
 {
-    public List<NetworkObject> Jugadores;
 
 
+    public NetworkVariable<bool> ready = new NetworkVariable<bool>();
+    void Start()
+    {
+      
 
+    }    
 
 }
 

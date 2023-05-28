@@ -16,6 +16,7 @@ namespace Movement.Components
         public float jumpAmount = 1.0f;
 
         private NetworkVariable<float> vida = new NetworkVariable<float>(10);
+        
 
 
         private Rigidbody2D _rigidbody2D;
@@ -125,29 +126,29 @@ namespace Movement.Components
         public void TakeHit(float damage)
         {
             takeHitServerRpc(damage);
-            setHealthBarClientRpc();
+            _networkAnimator.SetTrigger(AnimatorHit);
             
-            
-
             if (this.vida.Value <= 0)
             {
                 Die();
             }
+            setHealthBarClientRpc();
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void takeHitServerRpc(float damage)
         {
             this.vida.Value -= damage;
             Debug.Log(this.vida.Value);
-            ;
+            
         }
 
         [ClientRpc]
         public void setHealthBarClientRpc()
         {
+            
             this._healthbar.SetHealth(this.vida.Value);
-            _networkAnimator.SetTrigger(AnimatorHit);
+            
         }
         
         public void Die()

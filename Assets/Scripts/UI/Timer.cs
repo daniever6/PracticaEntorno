@@ -1,28 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class Timer : NetworkBehaviour
 {
     public TMPro.TextMeshProUGUI timerText;
-
-    private float startTime = 60f;
-    private float currentTime;
+    private NetworkVariable<float> currentTime = new NetworkVariable<float>(90);
+    
 
     void Start()
     {
-        currentTime = startTime;
     }
 
     void Update()
     {
-        currentTime -= 1 * Time.deltaTime;
-        timerText.text = currentTime.ToString("0");
+        UpdateServerRpc();
+    }
+    [ServerRpc]
+    public void UpdateServerRpc()
+    {
+        currentTime.Value -= 1 * Time.deltaTime;
+        timerText.text = currentTime.Value.ToString("0");
 
-        if (currentTime <= 0)
+        if (currentTime.Value <= 0)
         {
-            currentTime = 0;
+            currentTime.Value = 0;
+            Debug.Log("End game");
+        }
+        UpdateClientRpc();
+
+    }
+    [ClientRpc]
+    public void UpdateClientRpc()
+    {
+        timerText.text = currentTime.Value.ToString("0");
+
+        if (currentTime.Value <= 0)
+        {
+            currentTime.Value = 0;
             Debug.Log("End game");
         }
     }
+    
 }
