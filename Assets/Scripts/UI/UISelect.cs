@@ -39,16 +39,10 @@ namespace UI
         [ServerRpc]
         private void StartGameServerRpc()
         {
+
             PlayerPrefs.SetInt("selectedCharacter", selectedCharacter.Value);
-            selectPlayerClientRpc();
             SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
             
-        }
-
-        [ClientRpc]
-        private void selectPlayerClientRpc()
-        {
-            PlayerPrefs.SetInt("selectedCharacter", selectedCharacter.Value);
         }
     }
 }
