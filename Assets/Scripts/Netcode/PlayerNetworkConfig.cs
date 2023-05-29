@@ -1,3 +1,6 @@
+using Movement.Components;
+using System.Numerics;
+using UI;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
@@ -12,7 +15,8 @@ namespace Netcode
     {
 
         public GameObject[] characterPrefab;
-        public int Number = 0;
+        
+        public static NetworkVariable<int> selectCharacter= new NetworkVariable<int>(0);
 
 
         public override void OnNetworkSpawn()
@@ -23,11 +27,15 @@ namespace Netcode
         [ServerRpc]
         public void InstantiateCharacterServerRpc(ulong id)
         {
-            int selectCharacter = PlayerPrefs.GetInt("selectedCharacter");
-            GameObject characterGameObject = Instantiate(characterPrefab[selectCharacter]);
-            characterGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-            characterGameObject.transform.SetParent(transform, false);
-            characterGameObject.GetComponent<NetworkRigidbody2D>().enabled = true;
+            Debug.Log(id + "  Ha elegido personaje  " + characterPrefab[PlayerPrefs.GetInt("Selected")].name);
+            GameObject character = Instantiate(characterPrefab[PlayerPrefs.GetInt("Selected")]);
+            character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
+            character.transform.SetParent(transform, false);
+            character.GetComponent<NetworkRigidbody2D>().enabled = true;
+            character.GetComponent<FighterMovement>().enabled = false;
+            UIHandler.playergList.Add(character);
+            Debug.Log("Jugadores dentro de la escena " +  UIHandler.playergList.Count);
+
             
         }
     }

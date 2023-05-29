@@ -1,3 +1,4 @@
+using Netcode;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +12,7 @@ namespace UI
         public Button Previous;
         public Button Next;
         public GameObject[] characters;
-        private NetworkVariable<int> selectedCharacter = new NetworkVariable<int>(0);
+        public NetworkVariable<int> selectedCharacter = new NetworkVariable<int>(0);
 
         private void Start()
         {
@@ -29,7 +30,7 @@ namespace UI
         {
             characters[selectedCharacter.Value].SetActive(false);
             selectedCharacter.Value--;
-            if(selectedCharacter.Value < 0)
+            if (selectedCharacter.Value < 0)
             {
                 selectedCharacter.Value += characters.Length;
             }
@@ -39,16 +40,9 @@ namespace UI
         [ServerRpc]
         private void StartGameServerRpc()
         {
-            PlayerPrefs.SetInt("selectedCharacter", selectedCharacter.Value);
-            selectPlayerClientRpc();
+            PlayerPrefs.SetInt("Selected", selectedCharacter.Value);
             SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-            
-        }
 
-        [ClientRpc]
-        private void selectPlayerClientRpc()
-        {
-            PlayerPrefs.SetInt("selectedCharacter", selectedCharacter.Value);
         }
     }
 }
