@@ -1,5 +1,6 @@
 using Netcode;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,43 +13,42 @@ namespace UI
         public Button Previous;
         public Button Next;
         public GameObject[] characters;
-        public static int selectedCharacter = 0;
-        public PlayerNetworkConfig playerNetworkConfig;
+        public NetworkVariable<int> selectedCharacter= new NetworkVariable<int>(0);
+        public static UISelect ui;
 
         private void Start()
         {
-            StartButton.onClick.AddListener(StartGame);
+            StartButton.onClick.AddListener(StartGameServerRpc);
             Next.onClick.AddListener(NextCharacter);
             Previous.onClick.AddListener(previousCharacter);
+            ui = this;
         }
         public void NextCharacter()
         {
-            characters[selectedCharacter].SetActive(false);
-            selectedCharacter = (selectedCharacter + 1) % characters.Length;
-            characters[selectedCharacter].SetActive(true);
+            characters[selectedCharacter.Value].SetActive(false);
+            selectedCharacter.Value = (selectedCharacter.Value + 1) % characters.Length;
+            characters[selectedCharacter.Value].SetActive(true);
         }
         public void previousCharacter()
         {
-            characters[selectedCharacter].SetActive(false);
-            selectedCharacter--;
-            if (selectedCharacter < 0)
+            characters[selectedCharacter.Value].SetActive(false);
+            selectedCharacter.Value--;
+            if (selectedCharacter.Value < 0)
             {
-                selectedCharacter += characters.Length;
+                selectedCharacter.Value += characters.Length;
             }
-            characters[selectedCharacter].SetActive(true);
-        }
-
-        private void StartGame()
-        {
-            playerNetworkConfig.SelectedCharacterIndex = selectedCharacter;
-            SelectCharacterServerRpc(selectedCharacter);
-            SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-
+            characters[selectedCharacter.Value].SetActive(true);
         }
         [ServerRpc]
-        private void SelectCharacterServerRpc(int characterIndex)
+        private void StartGameServerRpc()
         {
-            playerNetworkConfig.SelectedCharacterIndex = characterIndex;
+
+            Debug.Log("UI Select eligio " + selectedCharacter.Value);
+            SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
+
         }
+
+
+
     }
 }

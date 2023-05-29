@@ -18,6 +18,8 @@ namespace UI
         public GameObject timer;
         public GameObject esperando;
         public static List<GameObject> playergList = new List<GameObject>();
+        public static NetworkVariable<int> selectedCharacterIndex = new NetworkVariable<int>();
+        
 
 
         private void Start()
@@ -28,12 +30,14 @@ namespace UI
             clientButton.onClick.AddListener(OnClientButtonClicked);
             StartButton.onClick.AddListener(OnStartButtonClickedServerRpc);
             esperando.SetActive(false);
+            selectedCharacterIndex.Value = UISelect.ui.selectedCharacter.Value;
 
 
         }
 
         private void OnHostButtonClicked()
         {
+            
             NetworkManager.Singleton.StartHost();
             debugPanel.SetActive(false);
             StartButton.gameObject.SetActive(true);
@@ -45,6 +49,7 @@ namespace UI
 
         private void OnClientButtonClicked()
         {
+
             NetworkManager.Singleton.StartClient();
             debugPanel.SetActive(false);
             esperando.SetActive(true);

@@ -1149,7 +1149,6 @@ MonoBehaviour:
   - {fileID: 403675040}
   - {fileID: 1133523263}
   - {fileID: 385493946}
-  playerNetworkConfig: {fileID: 2629072033587473432, guid: 85d5cc8725197694ea4e7b3ef26c46cf, type: 3}
 --- !u!1001 &1720976063
 PrefabInstance:
   m_ObjectHideFlags: 0
