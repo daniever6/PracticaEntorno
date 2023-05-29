@@ -8,8 +8,9 @@ public class Lock : MonoBehaviour
 {
     public NetworkVariable<TextMeshProUGUI> display_player_name = new NetworkVariable<TextMeshProUGUI>();
 
-    public void Awake()
+    public void Start()
     {
+
         display_player_name.Value.text = Username.username.usernameText;
     }
 

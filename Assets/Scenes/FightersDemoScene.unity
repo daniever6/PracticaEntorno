@@ -1442,6 +1442,7 @@ MonoBehaviour:
   - {fileID: 1133523263}
   - {fileID: 385493946}
   Username: {fileID: 2140652983}
+  selectedCharacter: 0
 --- !u!1001 &1720976063
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1731,7 +1732,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1981572305}
-  - component: {fileID: 1981572306}
   m_Layer: 0
   m_Name: Characters
   m_TagString: Untagged
@@ -1757,23 +1757,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1981572306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981572303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06233ef6d90c15c41b2e231f4a5abd03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartButton: {fileID: 88335240}
-  Previous: {fileID: 1970320158}
-  Next: {fileID: 1348322728}
-  characters: []
-  Username: {fileID: 2140652983}
 --- !u!1 &2054764767
 GameObject:
   m_ObjectHideFlags: 0

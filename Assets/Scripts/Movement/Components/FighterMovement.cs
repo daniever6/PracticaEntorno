@@ -69,6 +69,7 @@ namespace Movement.Components
         void FixedUpdate()
         {
             _rigidbody2D.velocity = new Vector2(_direction.x, _rigidbody2D.velocity.y);
+            setHealthBarClientRpc();
         }
 
         public void Move(IMoveableReceiver.Direction direction)
@@ -127,36 +128,38 @@ namespace Movement.Components
 
         public void TakeHit(float damage)
         {
-            takeHitServerRpc(damage);
-            _networkAnimator.SetTrigger(AnimatorHit);
-            
-            if (this.vida.Value <= 0)
+            if (this.enabled == true)
             {
-                Die();
+                takeHitServerRpc(damage);
+                _networkAnimator.SetTrigger(AnimatorHit);
+
+                if (this.vida.Value <= 0)
+                {
+                    Die();
+                }
             }
-            setHealthBarClientRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void takeHitServerRpc(float damage)
         {
             this.vida.Value -= damage;
+            this._healthbar.SetHealth(this.vida.Value);
             Debug.Log(this.vida.Value);
-            
+
+
         }
 
         [ClientRpc]
         public void setHealthBarClientRpc()
         {
-            
-            this._healthbar.SetHealth(this.vida.Value);
-            
+            this._healthbar.SetHealth(vida.Value);
         }
-        
+
         public void Die()
         {
             _networkAnimator.SetTrigger(AnimatorDie);
-
+            
             this.NetworkObject.Despawn();
         }
     }

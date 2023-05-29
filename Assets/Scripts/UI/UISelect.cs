@@ -13,7 +13,7 @@ namespace UI
         public Button Next;
         public GameObject[] characters;
         public Username Username;
-        public static int selectedCharacter = 0;
+        public int selectedCharacter = 0;
 
         private void Start()
         {
@@ -41,6 +41,7 @@ namespace UI
         private void StartGame()
         {
             Username.SetScene();
+            UIHandler.selectedCharacterIndex.Value = selectedCharacter;
             SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }
 

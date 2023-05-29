@@ -5,6 +5,8 @@ using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI
@@ -18,7 +20,7 @@ namespace UI
         public GameObject timer;
         public GameObject esperando;
         public static List<GameObject> playergList = new List<GameObject>();
-
+        public static NetworkVariable<int> selectedCharacterIndex = new NetworkVariable<int>(0);
 
         private void Start()
         {
@@ -28,6 +30,7 @@ namespace UI
             clientButton.onClick.AddListener(OnClientButtonClicked);
             StartButton.onClick.AddListener(OnStartButtonClickedServerRpc);
             esperando.SetActive(false);
+;
 
 
         }
@@ -63,11 +66,22 @@ namespace UI
                 player.GetComponent<FighterMovement>().enabled = true;
             }
 
+            OnStartButtonClickedClientRpc();
+
+
+        }
+        [ClientRpc]
+        private void OnStartButtonClickedClientRpc()
+        {
+            foreach (GameObject player in playergList)
+            {
+                player.GetComponent<FighterMovement>().enabled = true;
+            }
+
 
 
 
         }
-
 
 
 

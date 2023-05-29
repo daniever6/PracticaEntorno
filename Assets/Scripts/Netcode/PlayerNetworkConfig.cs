@@ -7,10 +7,10 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace Netcode
 {
@@ -30,14 +30,14 @@ namespace Netcode
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
-            selectedCharacterIndex.Value = UISelect.selectedCharacter;
+            
             InstantiateCharacterServerRpc(OwnerClientId);
         }
         [ServerRpc]
         public void InstantiateCharacterServerRpc(ulong id)
         {
-            Debug.Log(id + "  Ha elegido personaje  " + selectedCharacterIndex.Value);
-            GameObject character = Instantiate(characterPrefab[selectedCharacterIndex.Value]);
+            Debug.Log(id + "  Ha elegido personaje  " + UIHandler.selectedCharacterIndex.Value);
+            GameObject character = Instantiate(characterPrefab[UIHandler.selectedCharacterIndex.Value]);
             character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
             character.transform.SetParent(transform, false);
             character.GetComponent<NetworkRigidbody2D>().enabled = true;
