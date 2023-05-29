@@ -24,10 +24,16 @@ public class Username : MonoBehaviour
     }
 
     public void Update(){
-        this.usernameText = this.usernameInput.text;
+        SetUsernameServerRpc();
     }
 
     public void SetScene(){
         SceneManager.LoadSceneAsync("GameScene");
     }
+    [ServerRpc]
+    public void SetUsernameServerRpc()
+    {
+        this.usernameText = this.usernameInput.text;
+    }
+
 }

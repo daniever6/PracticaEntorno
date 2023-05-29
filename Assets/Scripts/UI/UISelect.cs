@@ -1,6 +1,5 @@
 using Netcode;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,42 +12,37 @@ namespace UI
         public Button Previous;
         public Button Next;
         public GameObject[] characters;
-        public NetworkVariable<int> selectedCharacter= new NetworkVariable<int>(0);
-        public static UISelect ui;
+        public Username Username;
+        public static int selectedCharacter = 0;
 
         private void Start()
         {
-            StartButton.onClick.AddListener(StartGameServerRpc);
+            StartButton.onClick.AddListener(StartGame);
             Next.onClick.AddListener(NextCharacter);
             Previous.onClick.AddListener(previousCharacter);
-            ui = this;
         }
         public void NextCharacter()
         {
-            characters[selectedCharacter.Value].SetActive(false);
-            selectedCharacter.Value = (selectedCharacter.Value + 1) % characters.Length;
-            characters[selectedCharacter.Value].SetActive(true);
+            characters[selectedCharacter].SetActive(false);
+            selectedCharacter = (selectedCharacter + 1) % characters.Length;
+            characters[selectedCharacter].SetActive(true);
         }
         public void previousCharacter()
         {
-            characters[selectedCharacter.Value].SetActive(false);
-            selectedCharacter.Value--;
-            if (selectedCharacter.Value < 0)
+            characters[selectedCharacter].SetActive(false);
+            selectedCharacter--;
+            if (selectedCharacter < 0)
             {
-                selectedCharacter.Value += characters.Length;
+                selectedCharacter += characters.Length;
             }
-            characters[selectedCharacter.Value].SetActive(true);
+            characters[selectedCharacter].SetActive(true);
         }
-        [ServerRpc]
-        private void StartGameServerRpc()
+
+        private void StartGame()
         {
-
-            Debug.Log("UI Select eligio " + selectedCharacter.Value);
-            SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
-
+            Username.SetScene();
+            SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }
-
-
 
     }
 }

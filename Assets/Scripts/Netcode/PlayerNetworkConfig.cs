@@ -18,29 +18,26 @@ namespace Netcode
     {
 
         public GameObject[] characterPrefab;
-        private int selectedCharacterIndex = (0);
+        private NetworkVariable<int> selectedCharacterIndex = new NetworkVariable<int>(0);
 
         public int SelectedCharacterIndex
         {
-            get { return selectedCharacterIndex; }
-            set { selectedCharacterIndex = value; }
+            get { return selectedCharacterIndex.Value; }
+            set { selectedCharacterIndex.Value = value; }
         }
 
 
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
-            
-
+            selectedCharacterIndex.Value = UISelect.selectedCharacter;
             InstantiateCharacterServerRpc(OwnerClientId);
         }
         [ServerRpc]
         public void InstantiateCharacterServerRpc(ulong id)
         {
-            selectedCharacterIndex = UIHandler.selectedCharacterIndex.Value;
-            Debug.Log("Personaje Que se intancia: " + characterPrefab[selectedCharacterIndex]);
-            Debug.Log(id + "  Ha elegido personaje  " + characterPrefab[selectedCharacterIndex]);
-            GameObject character = Instantiate(characterPrefab[selectedCharacterIndex]);
+            Debug.Log(id + "  Ha elegido personaje  " + selectedCharacterIndex.Value);
+            GameObject character = Instantiate(characterPrefab[selectedCharacterIndex.Value]);
             character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
             character.transform.SetParent(transform, false);
             character.GetComponent<NetworkRigidbody2D>().enabled = true;
