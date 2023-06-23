@@ -18,32 +18,28 @@ namespace Netcode
     {
 
         public GameObject[] characterPrefab;
-        private NetworkVariable<int> selectedCharacterIndex = new NetworkVariable<int>(0);
-
-        public int SelectedCharacterIndex
-        {
-            get { return selectedCharacterIndex.Value; }
-            set { selectedCharacterIndex.Value = value; }
-        }
 
 
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
             
-            InstantiateCharacterServerRpc(OwnerClientId);
+            
         }
         [ServerRpc]
         public void InstantiateCharacterServerRpc(ulong id)
         {
-            Debug.Log(id + "  Ha elegido personaje  " + UIHandler.selectedCharacterIndex.Value);
-            GameObject character = Instantiate(characterPrefab[UIHandler.selectedCharacterIndex.Value]);
-            character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-            character.transform.SetParent(transform, false);
-            character.GetComponent<NetworkRigidbody2D>().enabled = true;
-            character.GetComponent<FighterMovement>().enabled = false;
-            UIHandler.playergList.Add(character);
+            if(SceneManager.GetActiveScene().name == "GameScene") { 
+            int selectedCharacter = UISelect.selectedCharacterIndex.Value;
+            Debug.Log(id + "  Ha elegido personaje  " + selectedCharacter);
+            //GameObject character = Instantiate(characterPrefab[selectedCharacter]);
+            //character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
+            //character.transform.SetParent(transform, false);
+            //character.GetComponent<NetworkRigidbody2D>().enabled = true;
+            //character.GetComponent<FighterMovement>().enabled = false;
+            //UIHandler.playergList.Add(character);
             Debug.Log("Jugadores dentro de la escena " +  UIHandler.playergList.Count);
+                }
 
             
         }

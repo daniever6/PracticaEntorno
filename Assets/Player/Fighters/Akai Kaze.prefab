@@ -116,7 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f13f63599768a4eab20cc33b3a0b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display_player_name: {fileID: 2373146361570061018}
+  display_player_name:
+    m_InternalValue: {fileID: 0}
 --- !u!1 &1279163059010513274
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +254,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!61 &5052676979328557421
 BoxCollider2D:
   m_ObjectHideFlags: 0

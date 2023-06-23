@@ -1,6 +1,7 @@
 using Movement.Components;
 using Netcode;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -11,50 +12,50 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIHandler : MonoBehaviour
+    public class UIHandler : NetworkBehaviour
     {
-        public GameObject debugPanel;
-        public Button hostButton;
-        public Button clientButton;
         public Button StartButton;
         public GameObject timer;
         public GameObject esperando;
-        public static List<GameObject> playergList = new List<GameObject>();
-        public static NetworkVariable<int> selectedCharacterIndex = new NetworkVariable<int>(0);
+        public static List<GameObject> playerList= new List<GameObject>();
+        public List<GameObject> playergListInScene = new List<GameObject>();
+        public bool empezado = false;
+
+        
 
         private void Start()
         {
             timer.gameObject.GetComponent<Timer>().enabled = false;
-            StartButton.gameObject.SetActive(false);
-            hostButton.onClick.AddListener(OnHostButtonClicked);
-            clientButton.onClick.AddListener(OnClientButtonClicked);
+            if (IsHost)
+            {
+                StartButton.gameObject.SetActive(true);
+            }
             StartButton.onClick.AddListener(OnStartButtonClickedServerRpc);
-            esperando.SetActive(false);
+            esperando.SetActive(true);
+            playerList.Sort(gameObject.GetComponentInChildren<FighterMovement>().OwnerClientId);
 ;
 
 
         }
-
-        private void OnHostButtonClicked()
+        private void FixedUpdate()
         {
-            NetworkManager.Singleton.StartHost();
-            debugPanel.SetActive(false);
-            StartButton.gameObject.SetActive(true);
-            esperando.SetActive(true);
-
-
-
+            foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                playerList.Add(player);
+            }
+            foreach (GameObject player in playerList)
+            {
+                foreach (GameObject playerScene in playergListInScene)
+                {
+                    if (player != playerScene)
+                    {
+                        playerList.Remove(player);
+                    }
+                }
+            }
+          
         }
 
-        private void OnClientButtonClicked()
-        {
-            NetworkManager.Singleton.StartClient();
-            debugPanel.SetActive(false);
-            esperando.SetActive(true);
-
-
-
-        }
         [ServerRpc]
         private void OnStartButtonClickedServerRpc()
         {
@@ -77,8 +78,6 @@ namespace UI
             {
                 player.GetComponent<FighterMovement>().enabled = true;
             }
-
-
 
 
         }

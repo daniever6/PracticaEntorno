@@ -10,6 +10,7 @@ namespace Netcode
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
+
             
             FighterMovement fighterMovement = GetComponent<FighterMovement>();
             InputSystem.Instance.Character = fighterMovement;
