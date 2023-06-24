@@ -500,7 +500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f13f63599768a4eab20cc33b3a0b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display_player_name: {fileID: 6025443909747126188}
+  display_player_name:
+    m_InternalValue: {fileID: 0}
 --- !u!1 &7467422803782451213
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &383512172724502931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -714,6 +715,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpAmount: 1.2
+  vida:
+    m_InternalValue: 10
   _healthbar: {fileID: 5257847901770296096}
   _health: {fileID: 5692268621619740874}
 --- !u!114 &1925026832632699689

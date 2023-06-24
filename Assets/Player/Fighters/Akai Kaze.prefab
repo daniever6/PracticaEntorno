@@ -295,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpAmount: 1.2
+  vida:
+    m_InternalValue: 10
   _healthbar: {fileID: 3299611638346430835}
   _health: {fileID: 774254516031548867}
 --- !u!114 &6444215616322588684

@@ -17,7 +17,7 @@ namespace Movement.Components
         public float speed = 1.0f;
         public float jumpAmount = 1.0f;
 
-        private NetworkVariable<float> vida = new NetworkVariable<float>(10);
+        public NetworkVariable<float> vida = new NetworkVariable<float>(10);
         
 
 

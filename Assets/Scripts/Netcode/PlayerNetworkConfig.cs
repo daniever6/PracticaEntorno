@@ -18,31 +18,44 @@ namespace Netcode
     {
 
         public GameObject[] characterPrefab;
+        public NetworkVariable<int> selected = new NetworkVariable<int>(-1);
 
 
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
+
             
+
             
+
+
         }
+        //Aqui es para llamarlo cuando es el momento adecuado, paso por cada jugador e instancio su personaje en la escena, no se llama el metodo en OnNetworkSpawn
         [ServerRpc]
         public void InstantiateCharacterServerRpc(ulong id)
         {
-            if(SceneManager.GetActiveScene().name == "GameScene") { 
-            int selectedCharacter = UISelect.selectedCharacterIndex.Value;
-            Debug.Log(id + "  Ha elegido personaje  " + selectedCharacter);
-            //GameObject character = Instantiate(characterPrefab[selectedCharacter]);
-            //character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-            //character.transform.SetParent(transform, false);
-            //character.GetComponent<NetworkRigidbody2D>().enabled = true;
-            //character.GetComponent<FighterMovement>().enabled = false;
-            //UIHandler.playergList.Add(character);
-            Debug.Log("Jugadores dentro de la escena " +  UIHandler.playergList.Count);
-                }
+            //Se instancia el personaje con el indice que se ha sincronizado cuando se ha elegido el personaje en UISelect.
+            GameObject character = Instantiate(characterPrefab[selected.Value]);
+            character.GetComponent<NetworkObject>().SpawnWithOwnership(id);
+            character.transform.SetParent(transform, false);
+            character.GetComponent<NetworkRigidbody2D>().enabled = true;
+            character.GetComponent<FighterMovement>().enabled = false;
+           
 
             
         }
+
+        //public void SetNumber(int s)
+        //{
+        //    selected.Value = s;
+        //    SetNumberServerRpc(s);
+        //}
+        //[ServerRpc]
+        //public void SetNumberServerRpc(int s)
+        //{
+        //    selected.Value = s;
+        //}
 
 
         //private void SetCharacter(int elegido)
